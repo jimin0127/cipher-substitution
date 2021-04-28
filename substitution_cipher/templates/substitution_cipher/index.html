@@ -6,13 +6,22 @@
 
 </head>
 <body>
+
     {% load static %}
-    <form method="get">
-        암호키 : <input type="text" name="key"> <br>
-        평문 : <input type="text" name="plaintext"> <br>
-        암호문 : <input type="text" name="ciphertext"> <br>
-        복호문 : <input type="text" name="decrypttext"> <br>
+    <form method="post" action="{% url 'substitution' %}">
+        {%  csrf_token  %}
+        <select name='ad'>
+            <option value="simple">단일</option>
+            <option value="multi">다중</option>
+        </select>
+
+        암호키 : <input type="text" name="input_key"> <br>
+        평문 : <input type="text" name="input_plaintext"> <br>
+
+        <input type="submit" value="변환"><br>
     </form>
+        암호문 : <input type="text" name="ciphertext" value="{{ cryptogram }}"> <br>
+        복호문 : <input type="text" name="decrypttext" value="{{ decryption }}"> <br>
 
 </body>
 </html>
