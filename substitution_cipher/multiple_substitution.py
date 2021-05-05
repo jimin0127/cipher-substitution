@@ -103,16 +103,69 @@ class multiple_substitution:
 
         return (''.join(result))
 
+    # 복호화
+    def decryption(self, ciphertext, key_list):
+        result = []
+        word_list=[]
+        word_index = []
 
-    def decryption(self, ciphertext):
-        alphabet = list(string.ascii_lowercase)
-        decryption = []
-        for w in ciphertext:
-            try:
-                decryption.append(alphabet[(self.key_list.index(w))])
-            except(ValueError):
-                decryption.append(' ')
-        return ''.join(decryption)
+
+        for i in range(0, len(ciphertext), 2):
+            word = []
+            word.append(ciphertext[i])
+            word.append(ciphertext[i+1])
+            word_list.append(word)
+
+        for chs in word_list:
+            word = []
+
+            # key_list에서 word를 찾아서 인덱스 배열 생성
+            for ch in range(2):
+                for i in range(len(key_list)):
+                    for j in range(len(key_list[i])):
+                        if key_list[i][j] == chs[ch]:
+                            if ch == 0:
+                                word.append([i, j])
+                            if ch == 1:
+                                word.append([i, j])
+                                word_index.append(word)
+
+        for i in word_index:
+            # 행이 같을 때
+            if i[0][0] == i[1][0]:
+                result.append(key_list[(i[0][0])][(i[0][1] - 1)])
+                result.append(key_list[(i[0][0])][(i[1][1] - 1)])
+
+            # 열이 같을 때
+            elif i[0][1] == i[1][1]:
+                result.append(key_list[(i[0][0] - 1)][(i[0][1])])
+                result.append(key_list[(i[1][0] - 1)][(i[1][1])])
+
+            else :
+                result.append(key_list[i[1][0]][i[0][1]])
+                result.append(key_list[i[0][0]][i[1][1]])
+        answer = list(result[0])
+
+        for i in range(1, len(result)):
+            if result[i] == 'x':
+                try:
+                    if result[i-1] == result[i+1]:
+                        continue
+                except(IndexError):
+                    continue
+            else:
+                answer.append(result[i])
+
+        print(answer)
+        return ''.join(answer)
+
+
+
+
+            # ciphertext를 두개씩 배열로 나누고 키 리스트와 비교해서 원래의 배열을 찾는다.
+            # 만약 x를 제거했을때 두 알파벳이 중복된다면 x를 제거한다.
+
+
 
 
 
@@ -121,4 +174,5 @@ if __name__ == '__main__':
     #TODO 맵핑 화면 / 테이블 구현
     m = multiple_substitution('assassinator', 'be careful for assassinator')
     key_list, word_list = m.process()
-    m.pro(word_list, key_list)
+    cryptogram = m.pro(word_list, key_list)
+    m.decryption(cryptogram, key_list)
