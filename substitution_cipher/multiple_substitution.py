@@ -65,7 +65,6 @@ class multiple_substitution:
             word_list.append(word)
             word = []
 
-
         return key_list1, word_list
 
     def pro(self, word_list, key_list):
@@ -85,29 +84,23 @@ class multiple_substitution:
                             if ch == 1:
                                 word.append([i, j])
                                 word_index.append(word)
-        print(word_index)
         result = []
 
         for i in word_index:
             # 행이 같을 때
-            print(i)
             if i[0][0] == i[1][0]:
                 result.append(key_list[(i[0][0])][(i[0][1] + 1) % 5])
                 result.append(key_list[(i[0][0])][(i[1][1] + 1) % 5])
-                print(1, key_list[(i[0][0])][(i[0][1] + 1) % 5], key_list[(i[0][0])][(i[1][1] + 1) % 5], result)
 
             # 열이 같을 때
             elif i[0][1] == i[1][1]:
                 result.append(key_list[(i[0][0] + 1) % 5][(i[0][1])])
                 result.append(key_list[(i[1][0] +1) % 5][(i[1][1])])
-                print(2, key_list[(i[0][0] + 1) % 5][(i[0][1])],key_list[(i[1][0] +1) % 5][(i[1][1])], result)
 
             else :
                 result.append(key_list[i[1][0]][i[0][1]])
                 result.append(key_list[i[0][0]][i[1][1]])
-                print(3, key_list[i[1][0]][i[0][1]],key_list[i[0][0]][i[1][1]], result)
-        print('gonofovevlrbsiisvnintsdavc')
-        #print(''.join(result))
+
         return (''.join(result))
 
 
@@ -125,6 +118,7 @@ class multiple_substitution:
 
 if __name__ == '__main__':
     #TODO q/z 예외 적용 시켜 주기
+    #TODO 맵핑 화면 / 테이블 구현
     m = multiple_substitution('assassinator', 'be careful for assassinator')
     key_list, word_list = m.process()
     m.pro(word_list, key_list)

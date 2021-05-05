@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'substitution_cipher/index.css' %}">
+</head>
+<body>
+
+    <h2>암호문</h2> <input class="textarea" type="text" name="ciphertext" value="{{ cryptogram }}" readonly> <br>
+    <h2>복호문</h2> <input class="textarea" type="text" name="decrypttext" value="{{ decryption }}" readonly> <br>
+
+    <table class="table_container">
+        <tr>
+            {% for alpha in alpha_list %}
+                <td>{{ alpha }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for key in key_list %}
+                <td>{{ key }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+</body>
+</html>

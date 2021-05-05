@@ -1,27 +1,28 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'substitution_cipher/index.css' %}">
 
 </head>
 <body>
+    <div class="table_container">
+        <form method="post" action="{% url 'substitution' %}">
+            {%  csrf_token  %}
+            <select name='ad'>
+                <option value="simple">단일</option>
+                <option value="multi">다중</option>
+            </select>
 
-    {% load static %}
-    <form method="post" action="{% url 'substitution' %}">
-        {%  csrf_token  %}
-        <select name='ad'>
-            <option value="simple">단일</option>
-            <option value="multi">다중</option>
-        </select>
+            <div class="table_items"><h2>암호키</h2><input class="textarea" type="text" name="input_key"></div>
+            <div class="table_items"><h2>평  &nbsp;&nbsp;문</h2><input class="textarea" type="text" name="input_plaintext"></div>
 
-        암호키 : <input type="text" name="input_key"> <br>
-        평문 : <input type="text" name="input_plaintext"> <br>
+            <input type="submit" value="변환"><br>
+        </form>
 
-        <input type="submit" value="변환"><br>
-    </form>
-        암호문 : <input type="text" name="ciphertext" value="{{ cryptogram }}"> <br>
-        복호문 : <input type="text" name="decrypttext" value="{{ decryption }}"> <br>
+    </div>
 
 </body>
 </html>

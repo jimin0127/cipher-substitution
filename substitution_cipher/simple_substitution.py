@@ -29,7 +29,7 @@ class simple_substitution:
             except(ValueError):
                 result.append(' ')
         print(''.join(result))
-        return ''.join(result) # 암호문 반환
+        return ''.join(result), self.key_list, alphabet # 암호문 반환
 
 
     # 복호문 반환

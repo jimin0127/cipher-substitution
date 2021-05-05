@@ -18,14 +18,18 @@ def substitution(request):
             text = request.POST['input_plaintext']
 
             s = simple(key, text)
-            cryptogram = s.process()
+            cryptogram, key_list, alpha_list = s.process()
+            alpha_key_list = zip(alpha_list, key_list)
             decryption = s.process2(cryptogram)
             return render(
                 request,
-                'substitution_cipher/index.html',
+                'substitution_cipher/simple.html',
                 {
                     'cryptogram' : cryptogram,
-                    'decryption' : decryption
+                    'decryption' : decryption,
+                    'alpha_key_list' : alpha_key_list,
+                    'alpha_list':alpha_list,
+                    'key_list':key_list
                 }
             )
         elif request.POST['ad'] == 'multi':
@@ -37,10 +41,12 @@ def substitution(request):
             cryptogram = s.pro(word_list, key_list)
             return render(
                 request,
-                'substitution_cipher/index.html',
+                'substitution_cipher/multi.html',
                 {
                     'cryptogram': cryptogram,
-                    #'decryption': decryption
+                    #'decryption': decryption.
+                    'key_list':key_list,
+                    'word_list':word_list
                 }
             )
 
