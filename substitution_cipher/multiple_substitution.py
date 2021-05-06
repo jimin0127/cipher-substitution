@@ -3,6 +3,10 @@ class multiple_substitution:
     def __init__(self, key, text):
         self.key = key
         self.text = text
+        self.check_black = []
+        for i in range(len(text)):
+            if text[i] == ' ':
+                self.check_black.append(i)
 
     def process(self):
         alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q/z', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y']
@@ -156,22 +160,20 @@ class multiple_substitution:
             else:
                 answer.append(result[i])
 
-        print(answer)
-        return ''.join(answer)
+        answer1 = []
+        idx = 0
+        for i in answer:
+            answer1.append(i)
+            idx += 1
+            if idx in self.check_black:
+                answer1.append(' ')
+                idx += 1
 
-
-
-
-            # ciphertext를 두개씩 배열로 나누고 키 리스트와 비교해서 원래의 배열을 찾는다.
-            # 만약 x를 제거했을때 두 알파벳이 중복된다면 x를 제거한다.
-
-
-
+        return ''.join(answer1)
 
 
 if __name__ == '__main__':
-    #TODO q/z 예외 적용 시켜 주기
-    #TODO 맵핑 화면 / 테이블 구현
+
     m = multiple_substitution('assassinator', 'be careful for assassinator')
     key_list, word_list = m.process()
     cryptogram = m.pro(word_list, key_list)

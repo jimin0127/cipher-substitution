@@ -5,22 +5,103 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'substitution_cipher/index.css' %}">
+    <style>
+        .index_div{
+            margin-top:50px;
+            margin-left: 500px;
+
+        }
+        h2{
+            float: left;
+            margin-right: 20px;
+        }
+
+        .submit{
+            width: 100px;
+            height: 50px;
+            margin-left: 100px;
+            margin-top: 50px ;
+            margin-bottom: 10px;
+
+        }
+        select{
+            margin-right: 500px;
+            width: 100px;
+            height: 50px;
+        }
+
+        td{
+            border: 1px solid black;
+        }
+        input{
+            font-size: 20px;
+        }
+
+    </style>
 
 </head>
 <body>
-    <div class="table_container">
+    <div>
         <form method="post" action="{% url 'substitution' %}">
             {%  csrf_token  %}
             <select name='ad'>
-                <option value="simple">단일</option>
-                <option value="multi">다중</option>
+                <option name="simple" value="simple">단일</option>
+                <option name="multi" value="multi">다중</option>
             </select>
 
-            <div class="table_items"><h2>암호키</h2><input class="textarea" type="text" name="input_key"></div>
-            <div class="table_items"><h2>평  &nbsp;&nbsp;문</h2><input class="textarea" type="text" name="input_plaintext"></div>
+            <div class="index_div"><h2>암호키</h2><input class="textarea" type="text" name="input_key" value="{{ key }}"></div>
+            <div class="index_div" style="margin-top: 50px"><h2>평  &nbsp;&nbsp;문</h2><input class="textarea" type="text" name="input_plaintext" value="{{ text }}"></div>
 
-            <input type="submit" value="변환"><br>
+            <input class="submit" type="submit" value="암호화" name="cryptogram_btn">
+            <input class="submit" type="submit" value="복호화" name="decryption_btn">
+
         </form>
+
+        {% if type == 1 %}
+            <div class="index_div"> <h2>암호문</h2> <input class="textarea" type="text" name="ciphertext" value="{{ cryptogram }}" readonly> <br></div>
+
+            <div class="index_div" style="margin-top: 50px"> <h2>복호문</h2> <input class="textarea" type="text" name="decrypttext" value="{{ decryption }}" readonly> <br></div>
+
+            <table style="height: 80px; width: 600px; margin-left: 500px; border-collapse: collapse; background-color: white; text-align: center">
+                <tr>
+                    {% for alpha in alpha_list %}
+                        <td style="border: 1px solid black">{{ alpha }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for key in key_list %}
+                        <td>{{ key }}</td>
+                    {% endfor %}
+                </tr>
+            </table>
+            {% else %}
+                <div class="index_div"> <h2>암호문</h2> <input class="textarea" type="text" name="ciphertext" value="{{ cryptogram }}" readonly> <br> </div>
+                <div class="index_div" style="margin-top: 50px;"> <h2>복호문</h2> <input class="textarea" type="text" name="decrypttext" value="{{ decryption }}" readonly> <br> </div>
+
+                <table style="height: 100px; width: 400px; margin-left: 500px; border-collapse: collapse; text-align: center; background-color: white">
+                {% for key in key_list %}
+                    <tr>
+                        {% for w in key %}
+                        <td>{{ w }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </table>
+            <br><br>
+
+            <table style="height: 50px; width: 800px; margin-left: 500px; border-collapse: collapse; text-align: center; background-color: white">
+                <tr>
+                    {% for word in word_list %}
+                         <td>
+                        {% for w in word %}
+                           {{ w }}
+                        {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            </table>
+        {% endif %}
+
 
     </div>
 

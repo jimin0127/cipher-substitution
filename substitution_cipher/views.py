@@ -13,6 +13,15 @@ def index(request):
 
 def substitution(request):
     if request.method == 'POST':
+        if request.POST['input_key'] == '':
+            return render(
+                request,
+                'substitution_cipher/index.html',
+                {
+
+                }
+            )
+
         if request.POST['ad'] == 'simple':
             key = request.POST['input_key']
             text = request.POST['input_plaintext']
@@ -21,17 +30,38 @@ def substitution(request):
             cryptogram, key_list, alpha_list = s.process()
             alpha_key_list = zip(alpha_list, key_list)
             decryption = s.process2(cryptogram)
-            return render(
-                request,
-                'substitution_cipher/simple.html',
-                {
-                    'cryptogram' : cryptogram,
-                    'decryption' : decryption,
-                    'alpha_key_list' : alpha_key_list,
-                    'alpha_list':alpha_list,
-                    'key_list':key_list
-                }
-            )
+
+            if 'cryptogram_btn' in request.POST:
+
+                return render(
+                    request,
+                    'substitution_cipher/index.html',
+                    {
+                        'key':key,
+                        'text':text,
+                        'type': 1,
+                        'cryptogram' : cryptogram,
+                        'alpha_key_list' : alpha_key_list,
+                        'alpha_list':alpha_list,
+                        'key_list':key_list
+                    }
+                )
+            if 'decryption_btn' in request.POST :
+                return render(
+                    request,
+                    'substitution_cipher/index.html',
+                    {
+                        'key': key,
+                        'text': text,
+                        'type': 1,
+                        'cryptogram': cryptogram,
+                        'decryption': decryption,
+                        'alpha_key_list': alpha_key_list,
+                        'alpha_list': alpha_list,
+                        'key_list': key_list
+                    }
+                )
+
         elif request.POST['ad'] == 'multi':
             key = request.POST['input_key']
             text = request.POST['input_plaintext']
@@ -39,14 +69,37 @@ def substitution(request):
             s = multi(key, text)
             key_list, word_list = s.process()
             cryptogram = s.pro(word_list, key_list)
-            return render(
-                request,
-                'substitution_cipher/multi.html',
-                {
-                    'cryptogram': cryptogram,
-                    #'decryption': decryption.
-                    'key_list':key_list,
-                    'word_list':word_list
-                }
-            )
+            decryption = s.decryption(cryptogram, key_list)
+            request.POST['ad']
 
+            if 'cryptogram_btn' in request.POST:
+                return render(
+                    request,
+                    'substitution_cipher/index.html',
+                    {
+                        'key':key,
+                        'text':text,
+                        'type':2,
+                        'cryptogram': cryptogram,
+                        'key_list':key_list,
+                        'word_list':word_list
+                    }
+                )
+            if 'decryption_btn' in request.POST:
+                return render(
+                    request,
+                    'substitution_cipher/index.html',
+                    {
+                        'key': key,
+                        'text': text,
+                        'type': 2,
+                        'cryptogram': cryptogram,
+                        'decryption': decryption,
+                        'key_list': key_list,
+                        'word_list': word_list
+                    }
+                )
+
+
+def decryption(request):
+    return None
